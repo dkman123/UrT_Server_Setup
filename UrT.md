@@ -17,7 +17,9 @@ switch user
 > su - urt
 
 get the urt files where you want them
+
 ...by whatever process works for you
+
 I put it into /home/urt/Documents/UrbanTerror43
 
 take ownership of the files
@@ -38,8 +40,9 @@ cd UrbanTerror43/
 ./UrTUpdater_Ded.i386
 ```
 
-install guest additions to the Vitrual Box (for clipboard copy/paste)
-only necessary if using Virtual Box
+*install guest additions to the Vitrual Box (for clipboard copy/paste)*
+
+*only necessary if using Virtual Box*
 ```
 cd /media/urt/VBox_GAs_5.2.28
 sudo ./VBoxLinuxAdditions.run
@@ -47,8 +50,7 @@ sudo ./VBoxLinuxAdditions.run
 
 ---------
 
-a script to start UrT server, 
-**starturt.sh**
+a script to start UrT server, **starturt.sh**
 ```
 #!/bin/bash
 
@@ -123,9 +125,12 @@ ut4_paris
     g_gravity 800
 }
 ```
+NOTE: If you copy your maps up from a client don't put them in a "download" folder, put them directly into q3ut4
 
-NOTE: the settings don’t reset to default on the next map. You need to do that.
-NOTE: g_gear “0” allows all gear
+NOTE: The settings don’t reset to default on the next map. You need to do that.
+
+NOTE: To reset to allow all gear use  **g_gear "0"**
+
 see the gear calculator https://www.urbanterror.info/support/180-server-cvars/#2
 
 edit the server config
