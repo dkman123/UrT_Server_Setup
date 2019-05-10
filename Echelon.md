@@ -8,10 +8,13 @@ I don’t like the “unzip” step, don’t extract it to the root of your webs
 
 install apache
 > sudo apt install apache2
+
 move the site folder
 > sudo mv /home/urt/Documents/echelon-master/echelon /var/www/html
+
 launch mysql
 > mysql -u root -p
+
 create db for echelon
 ```
 CREATE DATABASE echelon CHARACTER SET utf8;
