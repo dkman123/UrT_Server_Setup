@@ -120,7 +120,9 @@ NOTE: a way to find log files, when you're not sure where it lives
 NOTE: apache log is in  /var/log/apache/access.log  it shows php errors
 
 **Turn off directory listing**
+
 > sudo leafpad /etc/apache2/apache2.conf
+
 find the line with <Directory /var/www/>
 
 remove “Indexes” from the next line
