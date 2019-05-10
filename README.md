@@ -202,24 +202,33 @@ start the service
 launch at boot
 > systemctl enable mysql
 
-launch the first time (if it says access denied, try with sudo. If it only works with sudo that’s a bug. See “to fix the mysql won’t connect unless i sudo it”, but you can wait to fix it until that point)
+Launch the first time (if it says access denied, try with sudo. If it only works with sudo that’s a bug. See "to fix the mysql won’t connect unless i sudo it", but you can wait to fix it until that point)
+
+run mysql
 > /usr/bin/mysql -u root -p
-[enter] empty password to get in
+**enter** empty password to get in
+
 if that doesn’t work, force set the password
 > sudo mysqladmin -u root password NEWPASSWORD
+
 if that doesn’t work make a file MysqlReset.sql:
 > UPDATE mysql.user SET authentication_string=PASSWORD('123abc!@#ABC') WHERE User='root';
+
 then manually start mysqld with  
 > sudo mysqld --init-file=FullPathToMysqlReset.sql
+
 stop the service
 > systemctl stop mysql
+
 start it normally
 > systemctl start mysql
 
-
+change folder
 > cd ~/Documents/B3/BigBrotherBot-For-UrT43-master/b3/sql/mysql
+
 get into mysql
 > mysql -u root -p
+
 run these in this order to set up the database (in this order)
 ```
 source b3-db.sql
@@ -307,28 +316,34 @@ run the game (become the super admin, 1st player to type this gets it - so DO IT
 mysql tip: if you get error Table '{tablename}' is marked as crashed and should be repaired
 > mysqlcheck -uroot -p --repair --all-databases
 
-*not needed: sudo apt install python-pip
-Not needed: pip install GeoIP
-I don’t think this was needed either
-> sudo apt install python-geoip
-
-*I’m not sure that this was necessary
+*not needed*
 ```
+#Not needed: sudo apt install python-pip
+#Not needed: pip install GeoIP
+#I don’t think this was needed either
+> sudo apt install python-geoip*
+
+
+#I’m not sure that this was necessary
+
 cd /usr/local/share
 sudo mkdir GeoIP
-```
+
 possibly DL file from https://dev.maxmind.com/geoip/geoip2/geolite2/
 but i had an older GeoIP.dat file that I sent up to the server Desktop
 > sudo cp ~/Desktop/GeoIP.dat .
-an old dat can also be found in older b3 github
-*
+an old dat can also be found in older b3 github*
+```
 
 NOTE: To get a Python library location
+```
 import geoip
 print ( geoip.__file__ )
+```
 
-
-*NOTE: The repo https://github.com/ptitbigorneau/BigBrotherBot-For-UrT43 is missing the folder plugins/geolocation/lib
+*not needed*
+```
+#NOTE: The repo https://github.com/ptitbigorneau/BigBrotherBot-For-UrT43 is missing the folder plugins/geolocation/lib
 Get the repo from https://github.com/BigBrotherBot/big-brother-bot and fill in the missing folder
 #if the b3.log says it can’t find plugin geolocation
 #copy the geolocation plugin to extplugins (because it’s looking for it there)
@@ -337,19 +352,18 @@ cd /usr/local/lib/python2.7/dist-packages/b3-1.12-py2.7.egg/b3/extplugins
 sudo cp -r /usr/local/lib/python2.7/dist-packages/b3-1.12-py2.7.egg/b3/plugins/geolocation /usr/local/lib/python2.7/dist-packages/b3-1.12-py2.7.egg/b3/extplugins
 ls
 #copy the lib folder so it becomes: 
-#/usr/local/lib/python2.7/dist-packages/b3-1.12-py2.7.egg/b3/extplugins/geolocation/lib
-*
+#/usr/local/lib/python2.7/dist-packages/b3-1.12-py2.7.egg/b3/extplugins/geolocation/lib*
+```
 
 in the UrbanTerror43 I put a script to start b3
 **startb3.sh**
---
 ```
 #!/bin/bash
 
 # run server
 /usr/local/bin/b3_run
 ```
---
+
 
 NOTE: ctrl+c will stop b3
 
@@ -404,7 +418,6 @@ Apply - Keep
 
 in the UrbanTerror43 I put a script to start ts3
 **startts3.sh**
---
 ```
 #!/bin/bash
 
@@ -413,7 +426,6 @@ in the UrbanTerror43 I put a script to start ts3
 # only needed for first start
 # license_accepted=1
 ```
---
 
 NOTE: ctrl+c will NOT stop ts3
 
@@ -467,7 +479,6 @@ cd testphp
 leafpad phpinfo.php
 ```
 contents of phpinfo.php (do not include -- lines)
---
 ```
 <?php
 
@@ -480,7 +491,6 @@ phpinfo(INFO_MODULES);
 
 ?>
 ```
---
 
 Visit http://localhost/testphp/phpinfo.php
 it should work
@@ -498,16 +508,16 @@ if you need to debug echelon (or anything php)
 Change display_errors to On (for normal operation you probably want this Off for security)
 > display_errors = On
 
-*not needed here, just for reference
-NOTE: used this tool to convert mysql to mysqli https://github.com/philip/MySQLConverterTool
+*not needed*
 ```
+#here, just for reference
+#NOTE: used this tool to convert mysql to mysqli https://github.com/philip/MySQLConverterTool
 wget https://github.com/philip/MySQLConverterTool/archive/master.zip
 unzip master.zip
 cd MySQLConverterTool-master/GUI
 php -S localhost:8000
+#then visit localhost:8000
 ```
-then visit localhost:8000
-
 
 restart apache (pulls in php.ini changes)
 > systemctl restart apache2
