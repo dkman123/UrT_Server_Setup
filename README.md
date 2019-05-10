@@ -43,25 +43,25 @@ if you launch it with sudo you can edit and save files in protected areas
 --------
 
 ## UrT
-https://github.com/dkman123/UrT_Setup_Setup/blob/master/UrT.md
+https://github.com/dkman123/UrT_Server_Setup/blob/master/UrT.md
 
 ----
 
 ## B3
-https://github.com/dkman123/UrT_Setup_Setup/blob/master/b3.md
+https://github.com/dkman123/UrT_Server_Setup/blob/master/B3.md
 
 ------
 
 ## TS3
-https://github.com/dkman123/UrT_Setup_Setup/blob/master/TS3.md
+https://github.com/dkman123/UrT_Server_Setup/blob/master/TS3.md
 
 ----
 
 ## Echelon
-https://github.com/dkman123/UrT_Setup_Setup/blob/master/Echelon.md
+https://github.com/dkman123/UrT_Server_Setup/blob/master/Echelon.md
 
 ----
 
 ## XLRStats (I did not get this site working... yet)
-https://github.com/dkman123/UrT_Setup_Setup/blob/master/XLRStats.md
+https://github.com/dkman123/UrT_Server_Setup/blob/master/XLRStats.md
 
