@@ -1,6 +1,15 @@
 
 ## XLRStats (I did not get this site working... yet)
 
+**NOTE:** To get in-game xlrstats working you only need to enable the b3 plugin in the b3.ini
+
+Reminder: By default, xlrstats doesn't kick in until you have 3 people on the server at the same time.
+
+-----
+
+This piece is only for the website with pretty graphs, etc.
+
+
 it needs mod-rewrite enabled
 > cd /etc/apache2/mods-enabled
 create a symbolic link to enable the module
@@ -47,8 +56,10 @@ set up the configs
 cd /var/www/html/xlrstats/app/Config
 cp database.php.default database.php
 ```
+
 edit database.php
 > cp email.php.default email.php
+
 edit email.php
 
 NOTE: this looks like it’s using old mail relay port 25. I don’t know that anything will allow that anymore. I don’t know if it knows how to “talk” TLS.
@@ -103,11 +114,22 @@ edit the plugin_xlrstats.ini to put in the xlrstats url
 
 the cake library (at least the latest one) wants certain php libraries enabled
 
+*Found page http://{ip}/xlrstats/app/webroot/test.php*
+*only needed for debugging*
+sudo apt install phpunit
+
+prerequisites
+```
+sudo apt install php-intl
+sudo apt install php-mysql
+sudo apt-get install php-common php-mysql php-cli
+```
+
 sudo leafpad /etc/php/7.2/apache2/php.ini
 
-sudo leafpad/etc/php/7.2/cli/php.ini
+sudo leafpad /etc/php/7.2/cli/php.ini
 
-sudo leafpad/usr/lib/php/7.2/php.ini-production
+sudo leafpad /usr/lib/php/7.2/php.ini-production
 
 NOTE: I edited all 3 just in case
 
