@@ -1,0 +1,186 @@
+## B3
+Big Brother Bot setup
+
+download B3 zip from https://github.com/ptitbigorneau/BigBrotherBot-For-UrT43
+or https://github.com/BigBrotherBot/big-brother-bot
+NOTE: I used the first one, but it’s missing a folder I had to pull from the second, see below
+
+For b3 commands see http://kzh.clankrh.com/b3/kzhzombie/commands.html
+Or https://pingperfect.com/index.php/knowledgebase/94/B3-Commands.html
+
+for B3 install mysql
+```
+sudo apt-get install mysql-server
+sudo apt-get install python-mysqldb
+```
+
+start the service
+> systemctl start mysql
+
+launch at boot
+> systemctl enable mysql
+
+Launch the first time (if it says access denied, try with sudo. If it only works with sudo that’s a bug. See "to fix the mysql won’t connect unless i sudo it", but you can wait to fix it until that point)
+
+run mysql
+> /usr/bin/mysql -u root -p
+**enter** empty password to get in
+
+if that doesn’t work, force set the password
+> sudo mysqladmin -u root password NEWPASSWORD
+
+if that doesn’t work make a file MysqlReset.sql:
+> UPDATE mysql.user SET authentication_string=PASSWORD('123abc!@#ABC') WHERE User='root';
+
+then manually start mysqld with  
+> sudo mysqld --init-file=FullPathToMysqlReset.sql
+
+stop the service
+> systemctl stop mysql
+
+start it normally
+> systemctl start mysql
+
+change folder
+> cd ~/Documents/B3/BigBrotherBot-For-UrT43-master/b3/sql/mysql
+
+get into mysql
+> mysql -u root -p
+
+run these in this order to set up the database (in this order)
+```
+source b3-db.sql
+use b3;
+source b3.sql
+source b3-update-1.3.0.sql
+source b3-update-1.6.0.sql
+source b3-update-1.7.0.sql
+source b3-update-1.8.1.sql
+source b3-update-1.9.0.sql
+source b3-update-1.10.0.sql
+```
+
+in server.cfg (settings for B3)
+```
+set g_logsync "2"    // 0=no log, 1=buffered, 2=continuous, 3=append
+set g_loghits "0"    // log hits 1 allows b3 to recognize headshots and xlrstats to provide hit location statistics (makes much bigger logs, might not be needed)
+//You might want to log every bullet hit to the game log file in order for B3 to work with plugins such as XLRstats.
+  set sv_minrate “25000” // to have stable pings and have B3 work smoothly
+```
+
+b3 usergroups
+
+Lvl | keyword
+--- | -------
+100 | superadmin
+ 80 | senioradmin
+ 60 | fulladmin
+ 40 | admin
+ 20 | mod
+  2 | reg
+  1 | user
+  0 | guest
+
+NOTE: in addons you can set the levels that can run commands (in the main system too)
+
+build B3 (from install.rst)
+```
+cd ~/Documents/B3/BigBrotherBot-For-UrT43-master/b3
+python setup.py build
+sudo python setup.py install
+```
+NOTE: goes to usr/local/lib/python2.7/dist-packages
+NOTE: /usr/local/bin/b3_run
+
+b3 config file (named b3.xml or b3.ini)
+you can grab the sample b3.ini file in this repo or generate one by:
+grab b3 config generator from https://github.com/ozguruysal/b3-config-generator
+I set up WAMP on windows
+download from http://www.wampserver.com/
+tossed the generator files into the www folder
+visited http://localhost/b3-config-generator-master/
+the generator page option only went up to UrT 4.2, but that’s ok for now
+downloaded b3.ini
+
+put the ini into /home/urt/.b3/b3.ini
+change the parser to 
+> parser: iourt43
+change the database user and password (note: i set them wrong or didn’t set them on the generator)
+
+copy the plugin config files 
+> cp ~/Documents/B3/BigBrotherBot-For-UrT43-master/b3/conf /home/urt/.b3
+
+b3 1st run setup (from first_run.rst)
+> cd ~/Documents/B3/BigBrotherBot-For-UrT43-master
+#python ./b3_run.py
+> /usr/local/bin/b3_run
+errors on no config
+
+got error connecting to db
+to fix the mysql won’t connect unless i sudo it
+connect to mysql
+```
+sudo mysql -u root
+SELECT User, Host FROM mysql.user;
+DROP USER 'root'@'localhost';
+CREATE USER 'root'@'%' IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+```
+
+run the game (become the super admin, 1st player to type this gets it - so DO IT NOW)
+> !iamgod
+
+mysql tip: if you get error Table '{tablename}' is marked as crashed and should be repaired
+> mysqlcheck -uroot -p --repair --all-databases
+
+*not needed*
+```
+#Not needed: sudo apt install python-pip
+#Not needed: pip install GeoIP
+#I don’t think this was needed either
+> sudo apt install python-geoip*
+
+
+#I’m not sure that this was necessary
+
+cd /usr/local/share
+sudo mkdir GeoIP
+
+possibly DL file from https://dev.maxmind.com/geoip/geoip2/geolite2/
+but i had an older GeoIP.dat file that I sent up to the server Desktop
+> sudo cp ~/Desktop/GeoIP.dat .
+an old dat can also be found in older b3 github*
+```
+
+NOTE: To get a Python library location
+```
+import geoip
+print ( geoip.__file__ )
+```
+
+*not needed*
+```
+#NOTE: The repo https://github.com/ptitbigorneau/BigBrotherBot-For-UrT43 is missing the folder plugins/geolocation/lib
+Get the repo from https://github.com/BigBrotherBot/big-brother-bot and fill in the missing folder
+#if the b3.log says it can’t find plugin geolocation
+#copy the geolocation plugin to extplugins (because it’s looking for it there)
+#I didn’t place this when I did it, but I think that I have this command correct.
+cd /usr/local/lib/python2.7/dist-packages/b3-1.12-py2.7.egg/b3/extplugins
+sudo cp -r /usr/local/lib/python2.7/dist-packages/b3-1.12-py2.7.egg/b3/plugins/geolocation /usr/local/lib/python2.7/dist-packages/b3-1.12-py2.7.egg/b3/extplugins
+ls
+#copy the lib folder so it becomes: 
+#/usr/local/lib/python2.7/dist-packages/b3-1.12-py2.7.egg/b3/extplugins/geolocation/lib*
+```
+
+in the UrbanTerror43 I put a script to start b3
+**startb3.sh**
+```
+#!/bin/bash
+
+# run server
+/usr/local/bin/b3_run
+```
+
+
+NOTE: ctrl+c will stop b3
