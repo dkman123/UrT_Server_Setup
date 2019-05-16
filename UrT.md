@@ -37,8 +37,10 @@ sudo apt-get install curl
 download the needed files (and update)
 ```
 cd UrbanTerror43/
-./UrTUpdater_Ded.i386
+chmod +x ./UrTUpdater_Ded.sh
+./UrTUpdater_Ded.sh
 ```
+substitute ./UrTUpdater_Ded.i386 for 32 bit systems
 
 *install guest additions to the Vitrual Box (for clipboard copy/paste)*
 
