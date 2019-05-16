@@ -56,7 +56,7 @@ a script to start UrT server, **starturt.sh**
 ```
 #!/bin/bash
 
-change dir to the script's directory
+# change dir to the script's directory
 #cd $(dirname $0)
 cd /home/urt/Documents/UrbanTerror43
 
