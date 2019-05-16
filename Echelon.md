@@ -27,7 +27,7 @@ run the sql script
 ```
 use echelon;
 source /home/urt/Documents/echelon-master/sql/echelon.sql
-source /home/urt/Documents/echelon-1.1.0/sql/echelon-1.2.0.sql;
+source /home/urt/Documents/echelon-master/sql/echelon-1.2.0.sql;
 ```
 formerly named echelonDK-password.sql
 
