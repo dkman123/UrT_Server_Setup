@@ -3,6 +3,9 @@ TeamSpeak server setup
 Download from https://www.teamspeak.com/en/downloads/#server
 
 Extract the gz
+> tar xjf teamspeak3-server_linux_amd64-3.7.1.tar.bz2
+
+Go into the folder
 > cd ~/Documents/teamspeak3-server_linux_amd64
 
 Create empty file .ts3server_license_accepted
