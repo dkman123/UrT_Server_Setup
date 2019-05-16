@@ -94,6 +94,12 @@ kill $(cat urt.pid)
 rm urt.pid
 ```
 
+make the scripts executable
+```
+chmod 774 starturt.sh
+chmod 774 stopurt.sh
+```
+
 ---------
 
 *install screen
