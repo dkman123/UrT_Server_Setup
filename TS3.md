@@ -22,7 +22,7 @@ Set Server Name
 
 Anti-Flood tab
 
-change Points needed to block commands: 50 (default 100?)
+change Points needed to block commands: 50 (default 150)
 
 change Points needed to block IP: 150 (default 250)
 
@@ -35,6 +35,8 @@ Misc tab
 uncheck Enable reporting to server list (takes you off the public list)
 
 hit Apply
+
+hit OK
 
 
 ### Permissions - Server Groups
@@ -76,9 +78,8 @@ check Client can change client descriptions
 
 check Client can grant talk power
 
-Apply - Keep
 
-check Manage Groups
+check Manage Groups section
 
 check Client can view permissions
 
@@ -100,5 +101,8 @@ in the UrbanTerror43 I put a script to start ts3
 # only needed for first start
 # license_accepted=1
 ```
+
+make the script executable
+> chmod 774 startts3.sh
 
 NOTE: ctrl+c will NOT stop ts3
