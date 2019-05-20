@@ -60,6 +60,7 @@ restart apache
 
 open mysql
 > mysql -u root -p
+
 create the database
 ```
 CREATE DATABASE phpbb CHARACTER SET utf8;
