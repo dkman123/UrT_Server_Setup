@@ -40,6 +40,9 @@ editor with context highlighting & tabs
 if you launch it with sudo you can edit and save files in protected areas
 > sudo apt install geany
 
+compressed file extraction
+> sudo apt install p7zip full
+
 --------
 
 ## UrT
