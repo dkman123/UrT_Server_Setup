@@ -85,7 +85,7 @@ a **stopurt.sh** file
 #!/bin/bash
 # change dir to the script's directory
 #cd $(dirname $0)
-cd /home/urt/UrbanTerror43
+cd /home/urt/Documents/UrbanTerror43
 
 #kill the process
 kill $(cat urt.pid)
