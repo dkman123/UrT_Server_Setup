@@ -86,7 +86,7 @@ change folder permissions
 ```
 # set group
 sudo chgrp -R www-data /var/www/html/phpBB3/styles
-make all files readable
+# make all files readable
 sudo find /var/www/html/phpBB3/styles -type d -exec chmod g+rx {} +
 sudo find /var/www/html/phpBB3/styles -type f -exec chmod g+r {} +
 # make certain folders writable
