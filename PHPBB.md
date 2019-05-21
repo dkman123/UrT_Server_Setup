@@ -103,3 +103,6 @@ with the following contents
 User-agent: *
 Disallow: /
 ```
+
+I had an error when trying to post, so I needed to follow the steps described here
+https://github.com/dkman123/phpBB3_fix/tree/master
