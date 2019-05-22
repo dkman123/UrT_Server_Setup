@@ -147,5 +147,38 @@ cd UrbanTerror43/q3ut4
 cp server_example.cfg server.cfg
 leafpad server.cfg
 ```
-NOTE: sv_hostname is what shows on the server list. It does support text colors
+NOTE: sv_hostname is what shows on the server list. It does support some, but not all, text colors
 
+-----
+
+If you're going to host map downloads on your site you may run into an issue with the windows client not being able to download over https.
+
+They might get an Invalid protocol 0 error.
+
+If you tell the server.cfg to download from http but your site redirects to https they'll get an error 301 message.
+
+To fix this you need to tell the server to NOT redirect if the URL is to download a map.
+
+In apache2 edit your config file, for example 
+>sudo leafpad /etc/apache2/sites-enabled/000-default.conf
+
+go to the bottom, you'll find something like this:
+```
+RewriteEngine on
+RewriteCond %{SERVER_NAME} =<<YOURSERVERNAME>>
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+```
+
+where <<YOURSERVERNAME>> is your site
+
+add a line just below RewriteEngine on
+> RewriteRule (q3ut4)($|/) - [L]
+
+so it now should look like this
+```
+RewriteEngine on
+RewriteRule (q3ut4)($|/) - [L]
+RewriteCond %{SERVER_NAME} =<<YOURSERVERNAME>>
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+```
+Assuming you're not hosting a whole lot of urls that contain the character combination "q3ut4" that should allow UrT to download over http and the rest of your site to redirect to https. 
