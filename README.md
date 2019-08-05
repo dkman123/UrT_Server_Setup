@@ -38,10 +38,20 @@ sudo apt install fsearch-trunk
 
 editor with context highlighting & tabs
 if you launch it with sudo you can edit and save files in protected areas
+> sudo apt install featherpad
+and as a backup
 > sudo apt install geany
 
 compressed file extraction
 > sudo apt install p7zip full
+
+*install guest additions to the Vitrual Box (for clipboard copy/paste)*
+
+*only necessary if using Virtual Box*
+```
+cd /media/urt/VBox_GAs_5.2.28
+sudo ./VBoxLinuxAdditions.run
+```
 
 --------
 
