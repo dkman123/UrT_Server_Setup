@@ -11,16 +11,16 @@ add the user to sudoers
 > sudo usermod -a -G sudo urt
 
 set the default shell
-> usermod --shell /bin/bash urt
+> sudo usermod --shell /bin/bash urt
 
-switch user
-> su - urt
+logout and log in as urt
 
-get the urt files where you want them
+get the urt files where you have them
 
 ...by whatever process works for you
+If you don't have them get them from https://www.urbanterror.info/downloads/
 
-I put it into /home/urt/Documents/UrbanTerror43
+I put the extracted files into /home/urt/Documents/UrbanTerror43
 
 take ownership of the files
 ```
@@ -42,56 +42,102 @@ chmod +x ./UrTUpdater_Ded.sh
 ```
 substitute ./UrTUpdater_Ded.i386 for 32 bit systems
 
-*install guest additions to the Vitrual Box (for clipboard copy/paste)*
-
-*only necessary if using Virtual Box*
-```
-cd /media/urt/VBox_GAs_5.2.28
-sudo ./VBoxLinuxAdditions.run
-```
-
 ---------
 
 a script to start UrT server, **starturt.sh**
 ```
-#!/bin/bash
+#!/bin/sh
 
-# change dir to the script's directory
-#cd $(dirname $0)
+# swtich to base folder (where we want the pid file)
 cd /home/urt/Documents/UrbanTerror43
 
-if [ -e urt.pid ]; then
-    if ( kill -0 $(cat urt.pid) 2> /dev/null ); then
-        echo "The server is already running"
-        exit 1
+# gets teh current folder without full path
+nick=${PWD##*/}
+
+# get the pid for that instance, filter out the pid for this awk command
+pid=`ps ux | awk '/urt_nickname '"$nick"'/ && !/awk/ {print $2}'`
+
+# -n = if string is not null
+if [ -n "$pid" ]; then
+  echo "A UrT server with nickname '$nick' is already running!"
+else
+  echo "Starting UrT Server nicknamed '$nick'..."
+  # sets new files permissions to -rw-r-----
+  umask 0026
+  # create the file and timestamp it
+  # not a true process id file, more of a mutex (mutually exclusive) file (meaning run only once)
+  touch urt.pid
+  # set shell resource limits
+  ulimit -c unlimited
+  while true
+  do
+    # -e = if file exists
+    if [ -e "urt.pid" ]; then
+      # this was a special process file we don't have
+      # if [ -e "./q3ut4/logs/qconsole.log" ]; then
+      # rename the file appending a last modified timestamp
+      #   mv -f "./q3ut4/logs/qconsole.log" "./q3ut4/logs/qconsole.log.$(stat --printf='%Y' ./q3ut4/logs/qconsole.log).log"
+      # fi
+
+      # remove old log files (mtime is days)
+      find ./q3ut4/logs -type f -name '*.log' -mtime +65 -exec rm {} \;
+
+      # rename the old log file
+      if [ -e "./q3ut4/games.log" ]; then
+      # rename the file appending a last modified timestamp
+        mv -f "./q3ut4/games.log" "./q3ut4/logs/games.$(stat --printf='%Y' ./q3ut4/games.log).log"
+      fi
+
+      ./Quake3-UrT-Ded.x86_64 +set fs_game q3ut4  +set urt_nickname $nick +set fs_basepath /home/urt/Documents/UrbanTerror43  +set fs_homepath /home/urt/Documents/UrbanTerror43 +set dedicated 2 +set net_port 27960 +set com_hunkmegs 128 +exec server.cfg
     else
-        echo "urt.pid found, but no server running. Possibly your previously started server crashed"
-        echo "Please view the logfile for details."
-        rm urt.pid
+      exit 0
     fi
+  done
 fi
 
-# run server
-./Quake3-UrT-Ded.x86_64 +set fs_game q3ut4  +set fs_basepath ~/Documents/UrbanTerror43  +set fs_homepath /home/urt/Documents/UrbanTerror43 +set dedicated 2 +set net_port 27960 +set com_hunkmegs 128 +exec server.cfg &
-
-# write process id
-echo $! > urt.pid
 ```
 
 -------
 
-a **stopurt.sh** file
+a **stopurt.sh** file. in the end you won't actually use this, but create it for testing
 ```
-#!/bin/bash
-# change dir to the script's directory
-#cd $(dirname $0)
+#!/bin/sh
+
+# swtich to base folder (where we want the pid file)
 cd /home/urt/Documents/UrbanTerror43
 
-#kill the process
-kill $(cat urt.pid)
+# gets teh current folder without full path
+nick=${PWD##*/}
 
-# tidy up
-rm urt.pid
+echo "Finding UrT process with nickname '$nick'..."
+# get the pid for that instance, filter out the pid for this awk command
+pid=`ps ux | awk '/urt_nickname '"$nick"'/ && !/awk/ {print $2}'`
+
+# -n = if string is not null
+if [ -n "$pid" ]; then
+  # remove the file
+  rm urt.pid
+  echo "Killing UrT process: $pid"
+  # end the process
+  kill $pid
+  # check to make sure
+  pid=`ps ux | awk '/urt_nickname '"$nick"'/ && !/awk/ {print $2}'`
+  # -n = if string is not null
+  if [ -n "$pid" ]; then
+    # wait 2 seconds
+    sleep 2
+    # check again
+    pid=`ps ux | awk '/urt_nickname '"$nick"'/ && !/awk/ {print $2}'`
+    # if it's still running
+    if [ -n "$pid" ]; then
+      # force close the process
+      kill -9 $pid
+    fi
+  fi
+else
+  # it wasn't running
+  echo "Could not find a server with nickname '$nick'"
+fi
 ```
 
 make the scripts executable
@@ -120,9 +166,9 @@ top stop the server
 
 set up the map cycle
 ```
-cd UrbanTerror43/q3ut4
+cd ~/Documents/UrbanTerror43/q3ut4
 cp mapcycle_example.txt mapcycle.txt
-leafpad mapcycle.txt
+featherpad ./mapcycle.txt
 NOTE: to set up custom settings per map do something like this:
 ```
 
@@ -143,9 +189,9 @@ see the gear calculator https://www.urbanterror.info/support/180-server-cvars/#2
 
 edit the server config
 ```
-cd UrbanTerror43/q3ut4
+cd ~/Documents/UrbanTerror43/q3ut4
 cp server_example.cfg server.cfg
-leafpad server.cfg
+featherpad ./server.cfg
 ```
 NOTE: sv_hostname is what shows on the server list. It does support some, but not all, text colors
 
@@ -159,8 +205,10 @@ If you tell the server.cfg to download from http but your site redirects to http
 
 To fix this you need to tell the server to NOT redirect if the URL is to download a map.
 
+These steps assume you've gone through setting up apache already (see Echelon / phpbb setup)
+
 In apache2 edit your config file, for example 
->sudo leafpad /etc/apache2/sites-enabled/000-default.conf
+>sudo featherpad /etc/apache2/sites-enabled/000-default.conf
 
 go to the bottom, you'll find something like this:
 ```
