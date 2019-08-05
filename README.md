@@ -53,6 +53,8 @@ cd /media/urt/VBox_GAs_5.2.28
 sudo ./VBoxLinuxAdditions.run
 ```
 
+NOTE: for VirtualBox, set the network to Bridged Adapter
+
 --------
 
 ## UrT
@@ -75,6 +77,6 @@ https://github.com/dkman123/UrT_Server_Setup/blob/master/Echelon.md
 
 ----
 
-## XLRStats (I did not get this site working... yet)
+## XLRStats (I did not get this site working. it isn't necessary for in-game stats)
 https://github.com/dkman123/UrT_Server_Setup/blob/master/XLRStats.md
 
