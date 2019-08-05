@@ -1,13 +1,99 @@
 ## Echelon
 
-old DL from https://github.com/markweirath/echelon
+download zip from https://github.com/dkman123/Echelon-2
 
-new DL from https://github.com/dkman123/echelon
+follow the instructions there
 
-I don’t like the “unzip” step, don’t extract it to the root of your website
+-----
 
-install apache
+## not necessary (old)
+
+install apache prereq
 > sudo apt install apache2
+
+install php prerequisites
+```
+sudo apt install php
+sudo apt install php-mysqli
+```
+
+to test php and verify extensions (not necessary)
+```
+cd /var/www/html
+sudo mkdir testphp
+sudo chown urt testphp
+cd testphp
+featherpad ./phpinfo.php
+```
+contents of phpinfo.php
+```
+<?php
+
+// Show all information, defaults to INFO_ALL
+phpinfo();
+
+// Show just the module information.
+// phpinfo(8) yields identical results.
+phpinfo(INFO_MODULES);
+
+?>
+```
+
+perform updates (not absolutely necessary)
+```
+sudo apt-get update
+sudo apt-get upgrade
+```
+
+NOTE: apache log is in  /var/log/apache2/access.log  it shows php errors
+
+turn off directory listing
+> sudo featherpad /etc/apache2/apache2.conf
+
+find the line with <Directory /var/www/>
+
+remove “Indexes” from the next line
+
+restart apache
+> sudo systemctl restart apache2
+
+
+edit the php.ini file
+> sudo featherpad /etc/php/7.2/apache2/php.ini
+
+~~/etc/php/7.2/cli/php.ini~~
+
+~~/usr/lib/php/7.2/php.ini-production~~
+
+~~NOTE: When in doubt you can edit all 3~~
+
+uncomment the line 
+> extension=mysqli
+
+if you need to debug echelon (or anything php)
+
+Change display_errors to On (for normal operation you probably want this Off for security)
+> display_errors = On
+
+
+Visit http://localhost/testphp/phpinfo.php
+
+it should work
+
+if it does you can rename phpinfo.php to phpinfo.phpX (for security reasons)
+```
+cd /var/www/html/testphp
+sudo mv phpinfo.php phpinfo.phpX
+```
+
+if you get a blank white page make sure php installed (you're hitting a php error)
+> sudo apt-get install php
+
+see https://github.com/dkman123/Echelon-2/blob/master/README.md
+
+-----
+
+## not necessary (old echelon)
 
 move the site folder
 > sudo mv /home/urt/Documents/echelon-master/echelon /var/www/html
@@ -42,57 +128,10 @@ a multi b3 environment is in the sample, tweak as needed
 
 I removed all except for the first one. Set numservers to 1
 
-install prerequisites
-```
-sudo apt install php
-sudo apt install php-mysqli
-```
 
-to test php and verify extensions (not necessary)
-```
-cd /var/www/html
-sudo mkdir testphp
-sudo chown urt testphp
-cd testphp
-leafpad phpinfo.php
-```
-contents of phpinfo.php
-```
-<?php
+-----
 
-// Show all information, defaults to INFO_ALL
-phpinfo();
-
-// Show just the module information.
-// phpinfo(8) yields identical results.
-phpinfo(INFO_MODULES);
-
-?>
-```
-
-Visit http://localhost/testphp/phpinfo.php
-
-it should work
-
-if it does you can rename phpinfo.php to phpinfo.phpX (for security reasons)
-
-you can tweak the look & feel by editing samples in /var/www/html/echelon/css
-
-Open /etc/php/7.2/apache2/php.ini
-
-MAYBE /etc/php/7.2/cli/php.ini
-
-MAYBE /usr/lib/php/7.2/php.ini-production
-
-NOTE: I edited all 3 just in case
-
-uncomment the line 
-> extension=mysqli
-
-if you need to debug echelon (or anything php)
-
-Change display_errors to On (for normal operation you probably want this Off for security)
-> display_errors = On
+## not necessary
 
 *not needed*
 ```
@@ -116,16 +155,3 @@ change the password (links - change my password)
 
 NOTE: a way to find log files, when you're not sure where it lives
 > lsof |grep log
-
-NOTE: apache log is in  /var/log/apache/access.log  it shows php errors
-
-**Turn off directory listing**
-
-> sudo leafpad /etc/apache2/apache2.conf
-
-find the line with <Directory /var/www/>
-
-remove “Indexes” from the next line
-
-restart apache
-> systemctl restart apache2
