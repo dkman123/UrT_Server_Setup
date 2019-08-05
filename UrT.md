@@ -252,7 +252,9 @@ Assuming you're not hosting a whole lot of urls that contain the character combi
 
 -----
 
-*install screen
+## not neccessary
+
+*install screen*
 I didn’t personally use screen
 > sudo apt-get install screen
 
@@ -265,6 +267,6 @@ NOTE: when you ctrl+c to get out of the command it doesn’t kill the server
 top stop the server
 > ./stopurt.sh
 
-*start the server
+*start the server*
 > screen -m -d -S UrT-Server sh starturt.sh
 
