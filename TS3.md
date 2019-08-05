@@ -94,15 +94,58 @@ Apply - Keep
 in the UrbanTerror43 I put a script to start ts3
 **startts3.sh**
 ```
-#!/bin/bash
+#!/bin/sh
+
+# change to the TS3 folder
+cd /home/urt/Documents/teamspeak3-server_linux_amd64
+
+# remove the pid file, if any
+rm ts3server.pid
 
 # run TS3
-> ~/Documents/teamspeak3-server_linux_amd64/ts3server_startscript.sh start
+# NOTE: it's script runs and exits, but leaves the TS3 server running. So we pop out without it dying
+./ts3server_startscript.sh start
 # only needed for first start
 # license_accepted=1
+
 ```
 
 make the script executable
-> chmod 774 startts3.sh
+> sudo chmod 774 startts3.sh
 
 NOTE: ctrl+c will NOT stop ts3
+
+Set up the service to run ts3
+> sudo featherpad /lib/systemd/system/ts3.service
+
+Put the contents
+```
+[Unit]
+Description=TS3 systemd service.
+Wants=network-online.target
+After=syslog.target network.target
+
+[Service]
+Type=forking
+User=urt
+Group=urt
+ExecStart=/bin/sh /home/urt/Documents/UrbanTerror43/startts3.sh
+ExecStop=/bin/sh /home/urt/Documents/UrbanTerror43/stopts3.sh
+PIDFile=/home/urt/Documents/teamspeak3-server_linux_amd64/ts3server.pid
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Start the service
+> sudo systemctl start ts3
+
+To stop it
+> sudo systemctl stop ts3
+
+To see if it's running or not
+> sudo systemctl status ts3
+
+Set it to start automatically when the system restarts
+> sudo systemctl enable ts3
+
