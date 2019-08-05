@@ -148,22 +148,6 @@ chmod 774 stopurt.sh
 
 ---------
 
-*install screen
-I didn’t personally use screen
-> sudo apt-get install screen
-
-run directly as 
-```
-cd ~/Documents/UrbanTerror43
-./starturt.sh
-```
-NOTE: when you ctrl+c to get out of the command it doesn’t kill the server
-top stop the server
-> ./stopurt.sh
-
-*start the server
-> screen -m -d -S UrT-Server sh starturt.sh
-
 set up the map cycle
 ```
 cd ~/Documents/UrbanTerror43/q3ut4
@@ -194,6 +178,41 @@ cp server_example.cfg server.cfg
 featherpad ./server.cfg
 ```
 NOTE: sv_hostname is what shows on the server list. It does support some, but not all, text colors
+
+-----
+
+Set up the service to run UrT
+```
+sudo featherpad /lib/systemd/system/urt.service
+```
+Put the contents
+```
+[Unit]
+Description=Urban Terror UrT systemd service.
+Wants=network-online.target
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=urt
+Group=urt
+ExecStart=/bin/sh /home/urt/Documents/UrbanTerror43/starturt.sh
+ExecStop=/bin/sh /home/urt/Documents/UrbanTerror43/stopurt.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+Start the service
+> sudo systemctl start urt
+
+Stop it
+> sudo systemctl stop urt
+
+See if it's running or not
+> sudo systemctl status urt
+
+Set it to start automatically when the system restarts
+> sudo systemctl enable urt
 
 -----
 
@@ -230,3 +249,22 @@ RewriteCond %{SERVER_NAME} =<<YOURSERVERNAME>>
 RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 ```
 Assuming you're not hosting a whole lot of urls that contain the character combination "q3ut4" that should allow UrT to download over http and the rest of your site to redirect to https. 
+
+-----
+
+*install screen
+I didn’t personally use screen
+> sudo apt-get install screen
+
+run directly as 
+```
+cd ~/Documents/UrbanTerror43
+./starturt.sh
+```
+NOTE: when you ctrl+c to get out of the command it doesn’t kill the server
+top stop the server
+> ./stopurt.sh
+
+*start the server
+> screen -m -d -S UrT-Server sh starturt.sh
+
