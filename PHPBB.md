@@ -148,8 +148,48 @@ install
 ```
 sudo apt-get install php7.3
 # after installing 7.3
-sudo apt install php-xml php-json php-bz2
+sudo apt install php7.3-xml php7.3-json php7.3-bz2 php7.3-mysqli
+```
+update the new ini file
+> sudo featherpad /etc/php/7.3/apache2/php.ini
+
+add **extension=dom** to the extensions section
+
+add **extension=json** to the extensions section? (I'm not sure if that's necessary)
+
+uncomment **extension=bz2**
+
+uncomment **extension=mysqli**
+
+if you run into problems edit the ini and set 
+
+display_errors = On
+
+NOTE: it's not recommended to leave display_errors On in production
+
+change your active version of PHP
+```
+sudo a2dismod php7.2
+sudo a2enmod php7.3
+
+# set the default version for the cli
+sudo update-alternatives --set php /usr/bin/php7.3
+
+# restart apache
+sudo systemctl restart apache2
 ```
 
-restart apache
-> sudo systemctl restart apache2
+I'm missing something that I did to get it working...
+
+reboot? -- nope
+
+-----
+
+these should set automatically, included just in case
+```
+sudo update-alternatives --set php /usr/bin/php7.3
+sudo update-alternatives --set phar /usr/bin/phar7.3
+sudo update-alternatives --set phar.phar /usr/bin/phar.phar7.3
+sudo update-alternatives --set phpize /usr/bin/phpize7.3
+sudo update-alternatives --set php-config /usr/bin/php-config7.3
+```
