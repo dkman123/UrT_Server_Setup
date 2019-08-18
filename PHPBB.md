@@ -33,7 +33,7 @@ sudo chmod g+w /var/www/html/phpBB3/images/avatars/upload/
 
 install requirements (xml, json, OPTIONAL bz2)
 ```
-sudo apt install php-xml php-json php-bz2
+sudo apt install php-xml php-json php-bz2 php-mbstring php-curl
 ```
 
 edit the config
@@ -44,6 +44,9 @@ add **extension=dom** to the extensions section
 add **extension=json** to the extensions section? (I'm not sure if that's necessary)
 
 uncomment **extension=bz2**
+
+if you're working with a release candidate build you may want to install
+> sudo apt install phpunit
 
 restart apache
 > sudo systemctl restart apache2
@@ -146,9 +149,9 @@ deb http://ppa.launchpad.net/ondrej/php/ubuntu disco main
 
 install
 ```
-sudo apt-get install php7.3
+sudo apt-get install php php7.3 libapache2-mod-php7.3
 # after installing 7.3
-sudo apt install php7.3-xml php7.3-json php7.3-bz2 php7.3-mysqli
+sudo apt install php7.3-xml php7.3-json php7.3-bz2 php7.3-mysqli php7.3-mbstring php7.3-curl
 ```
 update the new ini file
 > sudo featherpad /etc/php/7.3/apache2/php.ini
@@ -161,6 +164,8 @@ uncomment **extension=bz2**
 
 uncomment **extension=mysqli**
 
+uncomment **extension=mbstring**
+
 if you run into problems edit the ini and set 
 
 display_errors = On
@@ -171,6 +176,8 @@ change your active version of PHP
 ```
 sudo a2dismod php7.2
 sudo a2enmod php7.3
+# included just in case
+sudo a2enconf php7.3-fpm
 
 # set the default version for the cli
 sudo update-alternatives --set php /usr/bin/php7.3
@@ -192,13 +199,42 @@ should already be the newest
 restart apache
 > sudo systemctl restart apache2
 
-I'm missing something that I did to get it working...
-
-reboot? -- nope
 
 -----
 
-these should set automatically, included just in case
+**Unnecessary**
+
+if php pages just give you a blank
+```
+first enable display_errors in the config
+display_errors = On
+
+try a phpinfo page
+
+make sure disable_functions is empty
+disable_functions = phpinfo;
+
+if php just blows up for some reason
+sudo apt-get purge php7.3
+sudo apt-get install php7.3
+
+sudo apt-get purge libapache2-mod-php7.3
+sudo apt-get install libapache2-mod-php7.3
+
+sudo a2enmod php7.3
+sudo a2enconf php7.3-fpm
+
+# restart apache
+sudo systemctl restart apache2
+```
+
+~~edit the apache config~~
+```
+~~sudo featherpad /etc/apache2/apache2.conf~~
+```
+
+
+~~these should set automatically, included just in case~~
 ```
 sudo update-alternatives --set php /usr/bin/php7.3
 sudo update-alternatives --set phar /usr/bin/phar7.3
