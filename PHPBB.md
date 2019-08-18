@@ -179,6 +179,19 @@ sudo update-alternatives --set php /usr/bin/php7.3
 sudo systemctl restart apache2
 ```
 
+do an upgrade
+```
+sudo apt update
+# needs to be run as two steps
+sudo apt upgrade
+```
+
+should already be the newest
+> sudo apt install libapache2-mod-php7.3
+
+restart apache
+> sudo systemctl restart apache2
+
 I'm missing something that I did to get it working...
 
 reboot? -- nope
