@@ -156,6 +156,9 @@ sudo apt install php7.3-xml php7.3-json php7.3-bz2 php7.3-mysqli php7.3-mbstring
 update the new ini file
 > sudo featherpad /etc/php/7.3/apache2/php.ini
 
+NOTE: it seems to me that apache is actually using the cli ini file, so when in doubt edit both
+> sudo featherpad /etc/php/7.3/cli/php.ini
+
 add **extension=dom** to the extensions section
 
 add **extension=json** to the extensions section? (I'm not sure if that's necessary)
