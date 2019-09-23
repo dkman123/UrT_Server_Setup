@@ -92,6 +92,7 @@ Apply - Keep
 ### create a start script
 
 in the UrbanTerror43 I put a script to start ts3
+
 **startts3.sh**
 ```
 #!/bin/sh
@@ -110,8 +111,20 @@ rm ts3server.pid
 
 ```
 
-make the script executable
+Create the **stopts3.sh** file
+```
+#!/bin/sh
+
+# change to the TS3 folder
+cd /home/urt/Documents/teamspeak3-server_linux_amd64
+
+# stop the TS3 server
+./ts3server_startscript.sh stop
+```
+
+make the scripts executable
 > sudo chmod 774 startts3.sh
+> sudo chmod 774 stopts3.sh
 
 NOTE: ctrl+c will NOT stop ts3
 
