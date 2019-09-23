@@ -123,8 +123,10 @@ cd /home/urt/Documents/teamspeak3-server_linux_amd64
 ```
 
 make the scripts executable
-> sudo chmod 774 startts3.sh
-> sudo chmod 774 stopts3.sh
+```
+sudo chmod 774 startts3.sh
+sudo chmod 774 stopts3.sh
+```
 
 NOTE: ctrl+c will NOT stop ts3
 
