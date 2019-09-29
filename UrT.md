@@ -179,6 +179,14 @@ featherpad ./server.cfg
 ```
 NOTE: sv_hostname is what shows on the server list. It does support some, but not all, text colors
 
+add the logs folder
+
+set up the map cycle
+```
+cd ~/Documents/UrbanTerror43/q3ut4
+mkdir logs
+```
+
 -----
 
 Set up the service to run UrT
