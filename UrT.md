@@ -28,6 +28,12 @@ cd ~/Documents
 sudo chown -R urt:urt UrbanTerror43/
 ```
 
+get up to date
+```
+sudo apt update
+sudo apt upgrade
+```
+
 reqs for UrT server (i think it was, or at least the updater)
 ```
 sudo apt-get install libxml2-utils
