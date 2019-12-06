@@ -13,8 +13,7 @@ install apache prereq
 
 install php prerequisites
 ```
-sudo apt install php
-sudo apt install php-mysqli
+sudo apt install php php-mysqli libapache2-mod-php7.2
 ```
 
 to test php and verify extensions (not necessary)
@@ -87,7 +86,7 @@ sudo mv phpinfo.php phpinfo.phpX
 ```
 
 if you get a blank white page make sure php installed (you're hitting a php error)
-> sudo apt-get install php
+> sudo apt install php php-mysqli libapache2-mod-php7.2
 
 see https://github.com/dkman123/Echelon-2/blob/master/README.md
 
