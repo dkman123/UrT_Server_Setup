@@ -14,19 +14,25 @@ Create empty file .ts3server_license_accepted
 start it
 > ./ts3server_startscript.sh start license_accepted=1
 
+Copy the key (token)
+
 NOTE: when you ctrl+c it doesn’t end the server
+
+Connect to the server using the TeamSpeak client
+
+Enter the key given to you at the firsh launch
 
 RClick server name - Edit Virtual Server
 
 Set Server Name
 
-Anti-Flood tab
+## Anti-Flood tab
 
 change Points needed to block commands: 50 (default 150)
 
 change Points needed to block IP: 150 (default 250)
 
-Security tab
+## Security tab
 
 change Needed Security Level: 15 (default 8, one suggested 25 but takes forever to connect)
 
@@ -43,7 +49,7 @@ hit OK
 
 Normal
 
-check Administrate Clients
+*check Administrate Clients
 
 change Client can move: Guest
 
@@ -64,7 +70,7 @@ name: Mod
 
 using template: Normal
 
-check Administrate Clients
+*check Administrate Clients
 
 change Client can move: Normal
 
@@ -79,13 +85,15 @@ check Client can change client descriptions
 check Client can grant talk power
 
 
-check Manage Groups section
 
-check Client can view permissions
-
-check Assign and Remove Member
+*check Assign and Remove Member
 
 Client can add user to: Normal
+
+
+*check Manage Groups section
+
+check Client can view permissions
 
 Apply - Keep
 
