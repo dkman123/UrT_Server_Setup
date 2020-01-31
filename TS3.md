@@ -26,6 +26,8 @@ RClick server name - Edit Virtual Server
 
 Set Server Name
 
+Click More
+
 ## Anti-Flood tab
 
 change Points needed to block commands: 50 (default 150)
