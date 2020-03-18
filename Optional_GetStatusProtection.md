@@ -20,13 +20,89 @@ fail2ban
 
 to capture data
 
-* set the output file accordingly *
+Create the start up file
 
-> sudo featherpad /home/urt/Documents/UrbanTerror43/startgsp.sh
+> featherpad /home/urt/Documents/UrbanTerror43/startgsp.sh
 
 ```
-# NOTE: awk buffers a little bit, but this will write to the output file as soon as awk releases it. when traffic is low you'll notice the buffer, when traffic spikes it should write quickly
-sudo tcpdump -nn port 27960 and udp and ip -l | stdbuf -oL awk '{ if ($8 ~ /^1[34]$/) { time = $1; ip = $3; sub(/\.[0-9]+$/, "", ip); date = strftime("%Y-%m-%d", systime()); printf("%s %s %s\n", date, time, ip); }}' > /home/urt/tcpdump.log
+#!/bin/sh
+
+# swtich to base folder (where we want the pid file)
+cd /home/urt/Documents/UrbanTerror43
+
+
+# gsp log location
+logfile=/home/urt/tcpdump.log
+
+# get the pid for that instance, filter out the pid for this awk command
+pid=`ps ux | awk '/tcpdump/ && !/awk/ {print $2}'`
+
+# -n = if string is not null
+if [ -n "$pid" ]; then
+  echo "A GSP server with is already running!"
+else
+  echo "Starting GSP Server..."
+  # sets new files permissions to -rw-r-----
+  umask 0026
+  # create the file and timestamp it
+  touch gsp.pid
+  # set shell resource limits
+  ulimit -c unlimited
+  
+  while true
+  do
+  
+    # -e = if file exists
+    if [ -e "gsp.pid" ]; then
+      
+		# run server
+		# NOTE: awk buffers a little bit, but this will write to the output file as soon as awk releases it. when traffic is low you'll notice the buffer, when traffic spikes it should write quickly
+		# NOTE: if you run it manually you need to sudo
+		tcpdump -nn port 27960 and udp and ip -l | stdbuf -oL awk '{ if ($8 ~ /^1[34]$/) { time = $1; ip = $3; sub(/\.[0-9]+$/, "", ip); date = strftime("%Y-%m-%d", systime()); printf("%s %s %s\n", date, time, ip); }}' > $logfile
+     
+    else
+      exit 0
+    fi
+  done
+fi
+```
+
+Create the stop file
+```
+#!/bin/sh
+
+# swtich to base folder (where we want the pid file)
+cd /home/urt/Documents/UrbanTerror43
+
+echo "Finding GSP process..."
+# get the pid for that instance, filter out the pid for this awk command
+pid=`ps ux | awk '/tcpdump/ && !/awk/ {print $2}'`
+
+# -n = if string is not null
+if [ -n "$pid" ]; then
+  # remove the file
+  rm gsp.pid
+  echo "Killing GSP process: $pid"
+  # end the process
+  kill $pid
+  # check to make sure
+  pid=`ps ux | awk '/tcpdump/ && !/awk/ {print $2}'`
+  # -n = if string is not null
+  if [ -n "$pid" ]; then
+    # wait 2 seconds
+    sleep 2
+    # check again
+    pid=`ps ux | awk '/tcpdump/ && !/awk/ {print $2}'`
+    # if it's still running
+    if [ -n "$pid" ]; then
+      # force close the process
+      kill -9 $pid
+    fi
+  fi
+else
+  # it wasn't running
+  echo "Could not find a server process for GSP"
+fi
 ```
 
 make the scripts executable
@@ -50,8 +126,8 @@ After=urt.target syslog.target network.target
 
 [Service]
 Type=simple
-User=gsp
-Group=gsp
+User=root
+Group=root
 ExecStart=/bin/sh /home/urt/Documents/UrbanTerror43/startgsp.sh
 ExecStop=/bin/sh /home/urt/Documents/UrbanTerror43/stopgsp.sh
 
