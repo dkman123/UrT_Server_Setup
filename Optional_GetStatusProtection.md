@@ -51,11 +51,13 @@ failregex = <HOST>
 #datepattern = ^L%%Y-%%m-%%d %%H:%%M:%%S.%%f
 ```
 
-#check fail2ban config (errors would be at the top. there's a bunch of data that follows with square brackets)
-fail2ban-client -d
+# check fail2ban config 
+
+(errors would be at the top. there's a bunch of data that follows with square brackets)
+> fail2ban-client -d
 
 # restart fail2ban
-sudo systemctl restart fail2ban
+> sudo systemctl restart fail2ban
 
 
 
@@ -106,7 +108,6 @@ see ip blockage
 
 The awk script used above with comments
 ```
-
 #tcpdump.awk
 
 #sample
