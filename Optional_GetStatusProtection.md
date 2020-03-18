@@ -10,20 +10,79 @@ coreutils 7.5+ (probably already there)
 for stdbuf, if you can't use that see unbuffer below
 > sudo apt-get install coreutils
 
-# iptables (should already be there)
+iptables (should already be there)
 sudo apt install iptables
 
-# fail2ban
+fail2ban
 > sudo apt install fail2ban
+
+# set it up
 
 to capture data
 
-NOTE: awk buffers a little bit, but this will write to the output file as soon as awk releases it. when traffic is low you'll notice the buffer, when traffic spikes it should write quickly
-> sudo tcpdump -nn port 27960 and udp and ip -l | stdbuf -oL awk '{ if ($8 ~ /^1[34]$/) { time = $1; ip = $3; sub(/\.[0-9]+$/, "", ip); date = strftime("%Y-%m-%d", systime()); printf("%s %s %s\n", date, time, ip); }}' > ~/tcpdump.log
+* set the output file accordingly *
+
+> sudo featherpad /home/urt/Documents/UrbanTerror43/startGSP.sh
+
+```
+# NOTE: awk buffers a little bit, but this will write to the output file as soon as awk releases it. when traffic is low you'll notice the buffer, when traffic spikes it should write quickly
+sudo tcpdump -nn port 27960 and udp and ip -l | stdbuf -oL awk '{ if ($8 ~ /^1[34]$/) { time = $1; ip = $3; sub(/\.[0-9]+$/, "", ip); date = strftime("%Y-%m-%d", systime()); printf("%s %s %s\n", date, time, ip); }}' > /home/urt/tcpdump.log
+```
+
+make the scripts executable
+```
+chmod 774 starturt.sh
+chmod 774 stopurt.sh
+```
+
+The above will just run it once, but you may want to create a script and set that as a service.
+
+Set up the service to run UrT
+
+> sudo featherpad /lib/systemd/system/gsp.service
+
+Put the contents
+```
+[Unit]
+Description=Urban Terror UrT getStatus Protection systemd service.
+Wants=network-online.target
+After=urt.target syslog.target network.target
+
+[Service]
+Type=simple
+User=gsp
+Group=gsp
+ExecStart=/bin/sh /home/urt/Documents/UrbanTerror43/startgsp.sh
+ExecStop=/bin/sh /home/urt/Documents/UrbanTerror43/stopgsp.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Start the service
+> sudo systemctl start gsp
+
+To stop it
+> sudo systemctl stop gsp
+
+See if it's running or not
+> sudo systemctl status gsp
+
+Set it to start automatically when the system restarts
+> sudo systemctl enable gsp
+
+You can then restart the service in a cron job daily so your log doesn't get huge.
+
+Example to restart at 5:02 AM, add this line
+> sudo crontab -e
+```
+2 5 * * * systemctl restart gsp
+```
 
 create the Urban Terror jail rule
 
-sudo featherpad /etc/fail2ban/jail.local
+> sudo featherpad /etc/fail2ban/jail.local
+
 ```
 [urban-terror]
 
@@ -39,7 +98,8 @@ maxretry = 3
 ```
 create the filter file
 
-sudo featherpad /etc/fail2ban/filter.d/urban-terror.conf
+> sudo featherpad /etc/fail2ban/filter.d/urban-terror.conf
+
 ```
 # Fail2Ban filter for failure attempts in UrT (Urban Terror) 4.3
 #
