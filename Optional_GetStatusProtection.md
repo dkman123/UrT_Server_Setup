@@ -22,7 +22,7 @@ to capture data
 
 * set the output file accordingly *
 
-> sudo featherpad /home/urt/Documents/UrbanTerror43/startGSP.sh
+> sudo featherpad /home/urt/Documents/UrbanTerror43/startgsp.sh
 
 ```
 # NOTE: awk buffers a little bit, but this will write to the output file as soon as awk releases it. when traffic is low you'll notice the buffer, when traffic spikes it should write quickly
@@ -31,13 +31,13 @@ sudo tcpdump -nn port 27960 and udp and ip -l | stdbuf -oL awk '{ if ($8 ~ /^1[3
 
 make the scripts executable
 ```
-chmod 774 starturt.sh
-chmod 774 stopurt.sh
+chmod 774 startgsp.sh
+chmod 774 stopgsp.sh
 ```
 
 The above will just run it once, but you may want to create a script and set that as a service.
 
-Set up the service to run UrT
+Set up the service to run GSP
 
 > sudo featherpad /lib/systemd/system/gsp.service
 
