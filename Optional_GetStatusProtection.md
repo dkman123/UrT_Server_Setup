@@ -152,7 +152,9 @@ Set it to start automatically when the system restarts
 
 You can then restart the service in a cron job daily so your log doesn't get huge.
 
-In testing it grew about 16MB / hr (384 MB / day)
+In testing it originally grew at about 16MB / hr (384 MB / day)
+
+Though later it was at about 313 MB in 6 hours (1,252 MB / day)
 
 Example to restart at 5:02 AM and 4:02 PM, add these lines
 > sudo crontab -e
@@ -161,12 +163,14 @@ Example to restart at 5:02 AM and 4:02 PM, add these lines
 2 5,16 * * * systemctl restart gsp
 ```
 
-Example to restart it every 4 hours
+Example to restart it every 4 hours, on the 2's (4:02, 8:02, 12:02, etc)
 > sudo crontab -e
 
 ```
 2 */4 * * * systemctl restart gsp
 ```
+
+# fail2ban setup
 
 create the Urban Terror jail rule
 
@@ -219,6 +223,8 @@ restart fail2ban
 
 see fail2ban logging
 > sudo tail /var/log/fail2ban.log
+
+# Later actions
 
 see ip blockage
 > sudo iptables -S
