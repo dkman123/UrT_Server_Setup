@@ -152,10 +152,15 @@ Set it to start automatically when the system restarts
 
 You can then restart the service in a cron job daily so your log doesn't get huge.
 
-Example to restart at 5:02 AM, add this line
+In testing it grew about 16MB / hr (384 MB / day)
+
+Example to restart at 5:02 AM and 4:02 PM, add these lines
+
 > sudo crontab -e
+
 ```
 2 5 * * * systemctl restart gsp
+2 16 * * * systemctl restart gsp
 ```
 
 create the Urban Terror jail rule
@@ -199,13 +204,19 @@ failregex = <HOST>
 #datepattern = ^L%%Y-%%m-%%d %%H:%%M:%%S.%%f
 ```
 
-# check fail2ban config 
+check fail2ban config 
 
 (errors would be at the top. there's a bunch of data that follows with square brackets)
 > fail2ban-client -d
 
-# restart fail2ban
+restart fail2ban
 > sudo systemctl restart fail2ban
+
+see fail2ban logging
+> sudo tail /var/log/fail2ban.log
+
+see ip blockage
+> sudo iptables -S
 
 -----------------------
 
@@ -247,12 +258,6 @@ check fail2ban config (errors would be at the top. there's a bunch that follows)
 
 restart fail2ban
 > sudo systemctl restart fail2ban
-
-see fail2ban logging
-> sudo tail /var/log/fail2ban.log
-
-see ip blockage
-> sudo iptables -S
 
 The awk script used above with comments
 ```
