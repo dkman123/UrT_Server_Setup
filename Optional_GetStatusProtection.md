@@ -163,14 +163,23 @@ create the Urban Terror jail rule
 [urban-terror]
 
 enabled = true
+# what port to monitor, comma separated for multiple ports
 port = 27960
+# which protocol to monitor on the port
 protocol = udp
+# point to the filter file in ./filter.d/
 filter = urban-terror
 # set your log location accordingly
 logpath = /home/urt/tcpdump.log
+# number of seconds to look back at
 findtime  = 60
+# maximum number of hits allowed, blocked at the next attempt
 maxretry = 3
+# ban time
 #bantime = 10m	#10m default
+# ignore internal ip addresses. You may want to add the server's external IP as well, just in case
+# CIDR ranges, space separated
+ignoreip = 127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16
 ```
 create the filter file
 
@@ -195,7 +204,7 @@ failregex = <HOST>
 # restart fail2ban
 > sudo systemctl restart fail2ban
 
-
+-----------------------
 
 # unnecessary, background data
 
@@ -248,6 +257,7 @@ The awk script used above with comments
 
 #sample
 #14:06:25.962483 IP 51.75.224.242.45317 > 192.168.200.157.27960: UDP, length 14
+# my local tool to simulate getstatus sends 13 bytes
 
 {#main
 	# awk default field separator is "any whitespace"
