@@ -221,8 +221,12 @@ see ip blockage
 a report of how many times each ip has been banned (this is for any jail, not just UrT)
 > sudo awk '($(NF-1) = /Ban/){print $NF}' /var/log/fail2ban.log | sort | uniq -c | sort -n
 
-if there's a persistent threat you can add a permanent block in iptables
+if there's a persistent threat you can add a manual block in iptables
 > iptables -A INPUT -s 130.162.64.72 -j DROP
+
+rules are dropped when the server restarts, which is probably OK
+
+if you truly want persistent rules, see https://www.e2enetworks.com/help/knowledge-base/how-to-block-ip-address-on-linux-server/ 
 
 -----------------------
 
