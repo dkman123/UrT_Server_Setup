@@ -68,6 +68,9 @@ fi
 ```
 
 Create the stop file
+
+> featherpad /home/urt/Documents/UrbanTerror43/stopgsp.sh
+
 ```
 #!/bin/sh
 
