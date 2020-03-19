@@ -155,12 +155,17 @@ You can then restart the service in a cron job daily so your log doesn't get hug
 In testing it grew about 16MB / hr (384 MB / day)
 
 Example to restart at 5:02 AM and 4:02 PM, add these lines
-
 > sudo crontab -e
 
 ```
-2 5 * * * systemctl restart gsp
-2 16 * * * systemctl restart gsp
+2 5,16 * * * systemctl restart gsp
+```
+
+Example to restart it every 4 hours
+> sudo crontab -e
+
+```
+2 */4 * * * systemctl restart gsp
 ```
 
 create the Urban Terror jail rule
