@@ -156,7 +156,7 @@ In testing it originally grew at about 16MB / hr (384 MB / day)
 
 Though later it was at about 313 MB in 6 hours (1,252 MB / day)
 
-Example to restart at 5:02 AM and 4:02 PM, add these lines
+Example to restart at 5:02 AM and 4:02 PM, add these lines (though I recommend the next sample)
 > sudo crontab -e
 
 ```
@@ -223,6 +223,26 @@ restart fail2ban
 
 see fail2ban logging
 > sudo tail /var/log/fail2ban.log
+
+set up a restart script to clear out the log, which will also get quite large
+> featherpad /home/urt/Documents/Urbanterror43/restartfail2ban.sh
+
+```
+#!/bin/sh
+
+systemctl stop fail2ban
+rm /var/log/fail2ban.log
+systemctl start fail2ban
+```
+
+set the cron job
+> sudo crontab -e
+
+sample to restart at 5:03 AM
+
+```
+3 5 * * * /home/urt/Documents/UrbanTerror43/restartfail2ban.sh
+```
 
 # Later actions
 
