@@ -18,7 +18,7 @@ logout and log in as urt
 get the urt files where you have them
 
 ...by whatever process works for you
-If you don't have them get them from https://www.urbanterror.info/downloads/current
+If you don't have them get them from https://www.urbanterror.info/downloads/current/
 
 I put the extracted files into /home/urt/Documents/UrbanTerror43
 
