@@ -264,6 +264,14 @@ RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 ```
 Assuming you're not hosting a whole lot of urls that contain the character combination "q3ut4" that should allow UrT to download over http and the rest of your site to redirect to https. 
 
+Disable some services you don't need, like WiFi, Bluetooth, and Telephony.
+```
+sudo systemctl disable bluetooth.service
+sudo systemctl disable ModemManager.service
+sudo systemctl disable ofono.service
+sudo systemctl disable wpa_supplicant.service
+```
+  
 -----
 
 ## not neccessary
