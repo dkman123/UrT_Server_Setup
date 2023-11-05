@@ -12,6 +12,8 @@ install apache prereq
 install php prerequisites
 ```
 sudo apt install php php-mysqli libapache2-mod-php7.3
+# or
+sudo apt install php php8.1-mysqli libapache2-mod-php8.1
 ```
 
 to test php and verify extensions (not necessary)
