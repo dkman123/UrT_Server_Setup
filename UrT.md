@@ -240,6 +240,13 @@ To fix this you need to tell the server to NOT redirect if the URL is to downloa
 
 These steps assume you've gone through setting up apache already (see Echelon / phpbb setup)
 
+Enable the rewrite mod (and headers and socache_shmcb, I don't remember why)
+```
+sudo a2enmod rewrite
+sudo a2enmod headers
+sudo a2enmod socache_shmcb
+```
+
 In apache2 edit your config file, for example 
 >sudo featherpad /etc/apache2/sites-enabled/000-default.conf
 
