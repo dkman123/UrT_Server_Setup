@@ -91,3 +91,9 @@ if you get a blank white page make sure php installed (you're hitting a php erro
 see https://github.com/dkman123/Echelon-2/blob/master/README.md
 
 -----
+
+To enable/disable apache modules
+```
+a2enmod {module}
+a2dismod {module}
+```
