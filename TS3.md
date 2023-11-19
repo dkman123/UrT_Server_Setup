@@ -174,3 +174,11 @@ To see if it's running or not
 Set it to start automatically when the system restarts
 > sudo systemctl enable ts3
 
+If the service stops when the user logs out you can enable launched processes to persist
+> loginctl enable-linger $USER
+
+You can see who has lingering enabled
+> ls /var/lib/systemd/linger
+
+You can disable lingering with
+> loginctl disable-linger $USER
