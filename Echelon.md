@@ -99,3 +99,22 @@ a2dismod {module}
 # example
 a2enmod php8.1
 ```
+
+To create the database
+```
+CREATE DATABASE echelon;
+USE echelon;
+```
+
+If you need to create the user, replace NEWPASSWORD
+```
+DROP USER 'echelon'@'loclahost';
+CREATE USER 'echelon'@'localhost' IDENTIFIED WITH mysql_native_password BY 'NEWPASSWORD';
+GRANT ALL PRIVILEGES ON echelon.* TO 'echelon'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+You can creae the DB structure by running the sql files, or restore from a backup
+```
+SOURCE echelonBackup.sql
+```
