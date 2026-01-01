@@ -108,7 +108,7 @@ USE echelon;
 
 If you need to create the user, replace NEWPASSWORD
 ```
-DROP USER 'echelon'@'loclahost';
+DROP USER 'echelon'@'localhost';
 CREATE USER 'echelon'@'localhost' IDENTIFIED WITH mysql_native_password BY 'NEWPASSWORD';
 GRANT ALL PRIVILEGES ON echelon.* TO 'echelon'@'localhost';
 FLUSH PRIVILEGES;
@@ -121,8 +121,50 @@ SOURCE echelonBackup.sql
 
 If you get "ERROR 1819 (HY000): Your password does not satisfy the current policy requirements"
 
-You can make your password more secure or tell it to obey
+You can make your password more secure or tell it to obey and get out of your way.
 ```
 SHOW VARIABLES LIKE 'validate_password%';
 SET GLOBAL validate_password.policy=LOW;
 ```
+
+Attempt using the install setup
+http://localhost/echelon/install/
+
+Copy the echelon (inner) folder to your /var/www/html folder
+```
+# Remove the install folder
+rm -R install
+# Hide the phpinfo file
+mv phpinfo.php phpinfo.phpX
+```
+
+Copy the sample config, then edit it
+```
+cp config_sample.php config.php
+sudo nano config.php
+```
+
+Set the $path to your echelon folder within your html folder.
+
+Set your DBL_PASSWORD to your ecehlon password. Set the username and DB too if you changed either.
+
+Set the SALT to 14 random alphanumeric characters (capitals, lowercase, numbers).
+
+Set the SES_SALT to 6 random alphanumeric characters (capitals, lowercase, numbers).
+
+If you restored your database those should be set to whatever the old values were.
+
+If you're using ProxyCheck.io set your PROXYCHECKioKEY.
+
+Set your email server settings.
+
+If you want to use IP Intel links for IP checks set the $getipintel_email.
+
+If you want to use the server actions page, set the $server_action_path folder for it to write to.
+
+Set the path to your map cycle file in $mapcycleFile.
+
+Save it, CTRL+S and exit CTRL+X
+
+Visit the page in a browser
+http://localhost/echelon/index.php
