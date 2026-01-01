@@ -118,3 +118,11 @@ You can creae the DB structure by running the sql files, or restore from a backu
 ```
 SOURCE echelonBackup.sql
 ```
+
+If you get "ERROR 1819 (HY000): Your password does not satisfy the current policy requirements"
+
+You can make your password more secure or tell it to obey
+```
+SHOW VARIABLES LIKE 'validate_password%';
+SET GLOBAL validate_password.policy=LOW;
+```
