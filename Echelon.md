@@ -22,7 +22,7 @@ cd /var/www/html
 sudo mkdir testphp
 sudo chown urt testphp
 cd testphp
-featherpad ./phpinfo.php
+nano ./phpinfo.php
 ```
 contents of phpinfo.php
 ```
@@ -58,8 +58,9 @@ restart apache
 
 
 edit the php.ini file
-> sudo nano /etc/php/8.1/apache2/php.ini
-
+```
+sudo nano /etc/php/8.1/apache2/php.ini
+```
 ~~/etc/php/7.2/cli/php.ini~~
 
 ~~/usr/lib/php/7.2/php.ini-production~~
@@ -67,7 +68,9 @@ edit the php.ini file
 ~~NOTE: When in doubt you can edit all 3~~
 
 uncomment the line 
-> extension=mysqli
+```
+extension=mysqli
+```
 
 if you need to debug echelon (or anything php)
 
@@ -138,13 +141,19 @@ rm -R install
 mv phpinfo.php phpinfo.phpX
 ```
 
+Set permissions on the log file, so the web server can write to it
+```
+sudo chgrp www-data ./lib/log.txt
+sudo chmod 774 ./lib/log.txt
+```
+
 Copy the sample config, then edit it
 ```
 cp config_sample.php config.php
 sudo nano config.php
 ```
 
-Set the $path to your echelon folder within your html folder.
+Set the $path to your echelon folder within your html folder. (if you set this wrong you'll get 404 errors)
 
 Set your DBL_PASSWORD to your ecehlon password. Set the username and DB too if you changed either.
 
@@ -168,3 +177,9 @@ Save it, CTRL+S and exit CTRL+X
 
 Visit the page in a browser
 http://localhost/echelon/index.php
+
+To debug
+```
+sudo tail /var/log/apache2/error.log
+```
+
