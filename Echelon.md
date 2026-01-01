@@ -11,8 +11,8 @@ install apache prereq
 
 install php prerequisites
 ```
-sudo apt install php php-mysqli libapache2-mod-php7.3
-# or
+#sudo apt install php php-mysqli libapache2-mod-php7.3
+## or
 sudo apt install php php8.1-mysqli libapache2-mod-php8.1
 ```
 
@@ -47,7 +47,7 @@ sudo apt-get upgrade
 NOTE: apache log is in  /var/log/apache2/access.log  it shows php errors
 
 turn off directory listing
-> sudo featherpad /etc/apache2/apache2.conf
+> sudo nano /etc/apache2/apache2.conf
 
 find the line with <Directory /var/www/>
 
@@ -58,7 +58,7 @@ restart apache
 
 
 edit the php.ini file
-> sudo featherpad /etc/php/7.3/apache2/php.ini
+> sudo nano /etc/php/8.1/apache2/php.ini
 
 ~~/etc/php/7.2/cli/php.ini~~
 
@@ -86,7 +86,7 @@ sudo mv phpinfo.php phpinfo.phpX
 ```
 
 if you get a blank white page make sure php installed (you're hitting a php error)
-> sudo apt install php php-mysqli libapache2-mod-php7.2
+> sudo apt install php php-mysqli libapache2-mod-php8.1
 
 see https://github.com/dkman123/Echelon-2/blob/master/README.md
 
@@ -96,4 +96,6 @@ To enable/disable apache modules
 ```
 a2enmod {module}
 a2dismod {module}
+# example
+a2enmod php8.1
 ```
